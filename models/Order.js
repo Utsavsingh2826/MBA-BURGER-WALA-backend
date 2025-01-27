@@ -4,78 +4,96 @@ const schema = new mongoose.Schema({
   shippingInfo: {
     hNo: {
       type: String,
+      required: true,
     },
     city: {
       type: String,
+      required: true,
     },
     state: {
       type: String,
+      required: true,
     },
+
     country: {
       type: String,
+      required: true,
     },
     pinCode: {
       type: Number,
-      // Removed the min validation causing the error
+      required: true,
     },
     phoneNo: {
       type: Number,
-      // Removed the phone number validation causing the error
+      required: true,
     },
   },
 
-  orderItems: [
-    {
-      name: {
-        type: String,
-        // Removed the 'required' validation causing the error
-      },
+  orderItems: {
+    cheeseBurger: {
       price: {
         type: Number,
-        // Removed the 'required' validation causing the error
+        required: true,
       },
       quantity: {
         type: Number,
-        // Removed the 'required' validation causing the error
+        required: true,
       },
     },
-  ],
+
+    vegCheeseBurger: {
+      price: {
+        type: Number,
+        required: true,
+      },
+      quantity: {
+        type: Number,
+        required: true,
+      },
+    },
+
+    burgerWithFries: {
+      price: {
+        type: Number,
+        required: true,
+      },
+      quantity: {
+        type: Number,
+        required: true,
+      },
+    },
+  },
 
   user: {
-    type: mongoose.Schema.ObjectId,
-    ref: "User",
+    type: "String",
+    
+    required: true,
   },
 
   paymentMethod: {
-    type: String,
+    type: "String",
     enum: ["COD", "Online"],
     default: "COD",
   },
 
   paymentInfo: {
-    type: mongoose.Schema.ObjectId,
-    ref: "Payment",
+    type:"String",
+   
   },
-
-  paidAt: {
-    type: Date,
-  },
+  paidAt: Date,
 
   itemsPrice: {
     type: Number,
     default: 0,
   },
-
   taxPrice: {
     type: Number,
     default: 0,
   },
-
   shippingCharges: {
     type: Number,
     default: 0,
   },
-
   totalAmount: {
     type: Number,
     default: 0,
@@ -87,10 +105,7 @@ const schema = new mongoose.Schema({
     default: "Preparing",
   },
 
-  deliveredAt: {
-    type: Date,
-  },
-
+  deliveredAt: Date,
   createdAt: {
     type: Date,
     default: Date.now,

@@ -1,3 +1,6 @@
+
+import { User } from "../models/User.js";
+
 export const myProfile = (req,res,next)=>{
     res.status(200).json({
         success:true,
@@ -16,3 +19,16 @@ export const logout = (req, res, next) => {
         });
     });
 };
+
+export const getAdminUsers = async(req,res,next)=>{
+ try{
+    const users = await User.find({});
+ 
+ res.status(200).json({
+    success:true,
+    users
+ })
+ }catch(error){
+    return res.status(400).json({message:error.message})
+ }
+}

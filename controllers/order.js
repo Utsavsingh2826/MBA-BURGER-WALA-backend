@@ -13,7 +13,7 @@ export const placeOrder = asyncError(async (req, res, next) => {
     totalAmount,
   } = req.body;
 
-  // Validate or set user as a valid ObjectId
+  
   const user = req.user?._id; // Assuming `req.user` contains the authenticated user's info
   if (!user) {
     return res.status(400).json({
@@ -21,7 +21,6 @@ export const placeOrder = asyncError(async (req, res, next) => {
       message: "User ID is required and must be valid.",
     });
   }
-
   const orderOptions = {
     shippingInfo,
     orderItems,
@@ -111,7 +110,7 @@ export const getMyOrders = asyncError(async (req, res, next) => {
       if(order.orderStatus === "Preparing") order.orderStatus= "Shipped";
       else if(order.orderStatus==="Shipped"){
         order.orderStatus ="Delivered";
-        order.deliveredAt = Date.now;
+        order.deliveredAt =new Date(Date.now()) ;
       }
       
       else if (order.orderStatus === "Delivered") 
