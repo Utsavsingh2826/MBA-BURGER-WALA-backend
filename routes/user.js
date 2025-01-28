@@ -1,7 +1,8 @@
 import express from 'express'
 import passport from 'passport'
-import { myProfile, logout } from '../controllers/user.js';
+import { myProfile, logout,getAdminUsers } from '../controllers/user.js';
 import { authorizeAdmin, isAuthenticated } from '../middlewares/auth.js';
+import { getAdminStats } from '../controllers/order.js';
 
 
 
@@ -23,5 +24,6 @@ router.get(
 
 router.get("/me", isAuthenticated, myProfile)
 router.get("/logout", logout)
-router.get("/admin/users",isAuthenticated,authorizeAdmin,getAdminUsers)
+ router.get("/admin/users",isAuthenticated,authorizeAdmin,getAdminUsers)
+ router.get("/admin/stats",isAuthenticated,getAdminStats)
 export default router;
