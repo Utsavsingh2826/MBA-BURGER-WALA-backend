@@ -58,7 +58,7 @@ export const placeOrderOnline = asyncError(async (req, res, next) => {
     totalAmount,
   } = req.body;
 
-  // const user ="req.user" ;
+  const user = req.user._id;
 
   const orderOptions = {
     shippingInfo,
@@ -94,12 +94,12 @@ export const paymentVerification = asyncError(async (req, res, next) => {
 
   const body = razorpay_order_id + "|" + razorpay_payment_id;
 
-  // const expectedSignature = crypto
-  //   .createHmac("sha256", process.env.RAZORPAY_API_SECRET)
-  //   .update(body)
-  //   .digest("hex");
+  const expectedSignature = crypto
+    .createHmac("sha256", process.env.RAZORPAY_API_SECRET)
+    .update(body)
+    .digest("hex");
 
-  const isAuthentic = true;
+  const isAuthentic = expectedSignature === razorpay_signature;
 
   if (isAuthentic) {
     const payment = await Payment.create({
@@ -110,8 +110,6 @@ export const paymentVerification = asyncError(async (req, res, next) => {
 
     await Order.create({
       ...orderOptions,
-      user:"req.user.id",
-     
       paidAt: new Date(Date.now()),
       paymentInfo: payment._id,
     });
@@ -126,26 +124,16 @@ export const paymentVerification = asyncError(async (req, res, next) => {
 });
 
 export const getMyOrders = asyncError(async (req, res, next) => {
-    const userId = new mongoose.Types.ObjectId(req.user._id);
-  
-    console.log("User ID:", userId);
-  
-    const orders = await Order.find({ user: userId });
-  
-    console.log("Orders found:", orders);
-  
-    if (!orders.length) {
-      return res.status(404).json({
-        success: false,
-        message: "No orders found for this user.",
-      });
-    }
-  
-    res.status(200).json({
-      success: true,
-      orders,
-    });
+  const orders = await Order.find({
+    user: req.user._id,
+  }).populate("user", "name");
+
+  res.status(200).json({
+    success: true,
+    orders,
   });
+});
+
   
 
   export const getOrderDetails = asyncError(async (req, res, next) => {
