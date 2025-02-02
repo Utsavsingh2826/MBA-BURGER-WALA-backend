@@ -1,5 +1,5 @@
 import app from './app.js'
-
+Port = 5000;
 import {connectDB} from "./config/database.js"
 connectDB();  
 import Razorpay from "razorpay";
@@ -13,6 +13,6 @@ app.get('/',(req,res,next)=>{
     res.send("<h1>Working</h1>") 
 })   
 app.listen(process.env.Port, ()=>{
-    console.log(`Server is working on ${process.env.Port} in ${process.env.NODE_ENV}`)
+    console.log(`Server is working on ${Port} `)
 }
 )       
