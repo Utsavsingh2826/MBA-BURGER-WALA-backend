@@ -78,7 +78,7 @@ const schema = new mongoose.Schema({
 
   paymentInfo: {
     type:"String",
-   
+      
   },
   paidAt: Date,
 
