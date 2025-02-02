@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import ErrorHandler from "../utils/ErrorHandler.js";
 import { Payment } from "../models/Payment.js";
 import { User } from "../models/User.js";
+import { instance } from "../server.js";
 export const placeOrder = asyncError(async (req, res, next) => {
   const {
     shippingInfo,
